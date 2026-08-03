@@ -5,8 +5,11 @@ import { requireUser } from '@/lib/auth';
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const user = await requireUser();
 
+  // Row layout only from lg up, where the icon rail is a real column. Below
+  // that the rail is hidden and Sidebar renders a full-width top bar, which
+  // must stack above the content rather than sit beside it as a flex item.
   return (
-    <div className="flex min-h-screen">
+    <div className="min-h-screen lg:flex">
       <Sidebar
         role={user.role}
         userName={user.name}

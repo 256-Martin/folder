@@ -184,8 +184,14 @@ export function Select({
           aria-label={id ?? name}
           tabIndex={-1}
           onKeyDown={onKeyDown}
+          // Keep focus on the trigger when a row is clicked, without blocking
+          // touch scrolling the way a pointerdown handler would.
+          onMouseDown={(e) => e.preventDefault()}
           className={clsx(
             'absolute z-50 max-h-64 w-full min-w-0 overflow-y-auto overflow-x-hidden rounded-lg',
+            // overscroll-contain stops the page scrolling once the list hits
+            // its end; touch-pan-y keeps the gesture a vertical scroll.
+            'overscroll-contain touch-pan-y',
             'border border-line bg-surface py-1 shadow-pop',
             dropUp ? 'bottom-full mb-1' : 'top-full mt-1',
           )}
@@ -206,12 +212,15 @@ export function Select({
                   data-idx={i}
                   role="option"
                   aria-selected={isSelected}
-                  onPointerDown={(e) => {
-                    // Fire before the outside-click handler closes the panel.
-                    e.preventDefault();
-                    commit(o.value);
-                  }}
-                  onPointerEnter={() => setActive(i)}
+                  /*
+                   * click, not pointerdown: on a touch screen pointerdown fires
+                   * the moment a finger lands, before the browser has decided
+                   * whether the gesture is a tap or a scroll — so committing
+                   * there selected a row and closed the list as soon as the
+                   * user tried to scroll it. click fires only for a real tap.
+                   */
+                  onClick={() => commit(o.value)}
+                  onMouseEnter={() => setActive(i)}
                   className={clsx(
                     'flex cursor-pointer items-center gap-2 px-3 py-2 text-sm',
                     isSelected ? 'font-medium text-brand' : 'text-ink',

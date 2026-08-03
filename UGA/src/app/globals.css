@@ -1,0 +1,248 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+    /* #F3F2EC */
+    --bg: 243 242 236;
+    /* #EAEFEF — cards, tables, inputs, the sidebar */
+    --surface: 234 239 239;
+    /* #E0E6E6 — a shade deeper than the surface, so table headers, total rows
+       and hover states still read as raised against it. */
+    --raised: 224 230 230;
+    /* #BFCACA — has to carry against the #EAEFEF card, not against white, or
+       every table grid line and card edge disappears. */
+    --line: 191 202 202;
+    --ink: 17 24 39;
+    --muted: 92 103 120;
+    --faint: 141 152 168;
+
+    --brand: 21 94 117;
+    --brand-ink: 255 255 255;
+
+    --ok: 4 120 87;
+    --warn: 180 83 9;
+    --danger: 185 28 28;
+    --info: 29 78 216;
+  }
+
+  .dark {
+    --bg: 12 16 22;
+    --surface: 20 26 34;
+    --raised: 27 34 44;
+    --line: 45 55 68;
+    --ink: 232 237 243;
+    --muted: 152 165 182;
+    --faint: 112 126 145;
+
+    --brand: 56 172 200;
+    --brand-ink: 8 12 16;
+
+    --ok: 52 199 143;
+    --warn: 233 165 68;
+    --danger: 248 113 113;
+    --info: 125 172 255;
+  }
+
+  * {
+    border-color: rgb(var(--line));
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: rgb(var(--bg));
+    color: rgb(var(--ink));
+    font-family: var(--font-sans);
+    font-feature-settings: 'tnum' 1, 'cv05' 1;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Numeric columns line up when tabular figures are on. */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+
+  ::selection {
+    background: rgb(var(--brand) / 0.2);
+  }
+
+  /*
+   * Scrollbars sit on several different surfaces — the page (--bg), cards and
+   * table wrappers (--surface), raised panels (--raised). Rather than pick one
+   * colour and have it clash on the others, the track is transparent so it
+   * shows whatever is behind it, and only the thumb carries a colour. Both
+   * themes follow automatically because the thumb reads --line.
+   */
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--line)) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track,
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgb(var(--line));
+    border-radius: 999px;
+    /* Transparent border + content-box clip insets the thumb off the edges. */
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(var(--faint));
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--brand));
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-card bg-surface shadow-card;
+  }
+
+  .dark .card,
+  .dark .table-wrap {
+    box-shadow:
+      0 1px 3px 0 rgb(0 0 0 / 0.4),
+      0 4px 12px -4px rgb(0 0 0 / 0.45);
+  }
+
+  .card-pad {
+    @apply p-4 sm:p-5;
+  }
+
+  .label {
+    @apply block text-xs font-medium text-muted mb-1.5;
+  }
+
+  .input,
+  .select,
+  .textarea {
+    @apply w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm text-ink
+           placeholder:text-faint transition
+           focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/25
+           disabled:cursor-not-allowed disabled:bg-raised disabled:text-faint;
+  }
+
+  .select {
+    @apply appearance-none bg-no-repeat pr-9;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-position: right 0.65rem center;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-3.5 py-2 text-sm
+           font-medium transition select-none
+           disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply btn bg-brand text-brand-ink hover:opacity-90 active:opacity-80;
+  }
+
+  .btn-secondary {
+    @apply btn border border-line bg-surface text-ink hover:bg-raised;
+  }
+
+  .btn-ghost {
+    @apply btn text-muted hover:bg-raised hover:text-ink;
+  }
+
+  .btn-danger {
+    @apply btn bg-danger text-white hover:opacity-90;
+  }
+
+  .btn-sm {
+    @apply px-2.5 py-1.5 text-xs;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-2xs font-semibold
+           uppercase tracking-wide;
+  }
+
+  .table-wrap {
+    @apply overflow-x-auto rounded-card border border-line bg-surface shadow-card;
+  }
+
+  table.data {
+    @apply w-full border-collapse text-sm;
+  }
+
+  table.data thead th {
+    @apply sticky top-0 z-10 whitespace-nowrap border-b border-r border-line bg-raised px-3 py-2.5
+           text-left text-xs font-semibold uppercase tracking-wide text-muted;
+  }
+
+  table.data tbody td {
+    @apply border-b border-r border-line px-3 py-2.5 align-middle;
+  }
+
+  table.data tbody tr:last-child td {
+    @apply border-b-0;
+  }
+
+  /* No rule against the table's own edge — .table-wrap already draws that. */
+  table.data thead th:last-child,
+  table.data tbody tr td:last-child,
+  table.data tfoot tr td:last-child {
+    @apply border-r-0;
+  }
+
+  table.data tbody tr:hover {
+    background: rgb(var(--raised));
+  }
+
+  table.data tfoot td {
+    @apply border-r border-t-2 border-line bg-raised px-3 py-2.5 font-semibold;
+  }
+
+  .num {
+    @apply text-right tnum;
+  }
+}
+
+/* Print: strip the shell so reports come out clean. */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  .card,
+  .table-wrap {
+    border-color: #ccc;
+    box-shadow: none;
+  }
+
+  /* The screen line colour is too faint on paper. */
+  table.data th,
+  table.data td {
+    border-color: #ccc;
+  }
+
+  @page {
+    margin: 14mm;
+  }
+}

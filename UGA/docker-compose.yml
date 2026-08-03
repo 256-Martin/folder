@@ -1,0 +1,32 @@
+# Optional: a local PostgreSQL server without installing anything system-wide.
+#
+#   docker compose up -d
+#   npm run setup
+#
+# Matches the DATABASE_URL in .env.local:
+#   postgresql://postgres:postgres@localhost:5432/ugabrush
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: ugabrush-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ugabrush
+      # Match the business timezone so date columns behave predictably.
+      TZ: Africa/Kampala
+      PGTZ: Africa/Kampala
+    ports:
+      - '5432:5432'
+    volumes:
+      - ugabrush-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d ugabrush']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  ugabrush-pgdata:

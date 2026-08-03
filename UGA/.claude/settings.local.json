@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(python \"C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-User-Desktop-UGA\\\\91f29f15-117d-4c78-af0a-bb2ec07bfda2\\\\scratchpad\\\\sweep.py\")",
+      "PowerShell(python \"C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-User-Desktop-UGA\\\\91f29f15-117d-4c78-af0a-bb2ec07bfda2\\\\scratchpad\\\\verify3.py\")",
+      "PowerShell(python \"C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-User-Desktop-UGA\\\\91f29f15-117d-4c78-af0a-bb2ec07bfda2\\\\scratchpad\\\\materials.py\")",
+      "PowerShell(python \"C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-User-Desktop-UGA\\\\91f29f15-117d-4c78-af0a-bb2ec07bfda2\\\\scratchpad\\\\flow.py\")",
+      "PowerShell($n=\\(Get-Command node -ErrorAction SilentlyContinue\\); if\\($n\\){\"node: \" + \\(node -v\\)}else{\"node: NOT INSTALLED\"}; $np=\\(Get-Command npm -ErrorAction SilentlyContinue\\); if\\($np\\){\"npm: \" + \\(npm -v\\)}else{\"npm: NOT INSTALLED\"}; $g=\\(Get-Command git -ErrorAction SilentlyContinue\\); if\\($g\\){\"git: \" + \\(git --version\\)}else{\"git: NOT INSTALLED\"}; \"cwd contents:\"; Get-ChildItem \"C:\\\\Users\\\\User\\\\Desktop\\\\UGA\" -Force -ErrorAction SilentlyContinue | Measure-Object | Select-Object -ExpandProperty Count)",
+      "PowerShell(npm prune *)",
+      "PowerShell($env:PGPASSWORD=\"password\"; $psql=\"C:\\\\Program Files\\\\PostgreSQL\\\\18\\\\bin\\\\psql.exe\"; & $psql -U postgres -h localhost -p 5432 -d postgres -c \"CREATE DATABASE ugabrush;\" 2>&1; \"--- databases now ---\"; & $psql -U postgres -h localhost -p 5432 -d postgres -t -c \"SELECT datname FROM pg_database WHERE datistemplate = false;\" 2>&1)",
+      "Bash(PGPASSWORD=password \"/c/Program Files/PostgreSQL/18/bin/psql.exe\" -U postgres -h localhost -lqt)",
+      "Bash(PGPASSWORD=password \"/c/Program Files/PostgreSQL/18/bin/psql.exe\" -U postgres -h localhost -d ugabrush -c \"\\\\dt\")",
+      "Bash(PGPASSWORD=password \"/c/Program Files/PostgreSQL/18/bin/psql.exe\" -U postgres -h localhost -d ugabrush -c \"SELECT 'purchase' t, count\\(*\\) FROM purchase UNION ALL SELECT 'item', count\\(*\\) FROM item UNION ALL SELECT 'worker', count\\(*\\) FROM worker UNION ALL SELECT 'inventory_movement', count\\(*\\) FROM inventory_movement UNION ALL SELECT 'production_operation', count\\(*\\) FROM production_operation UNION ALL SELECT 'meal', count\\(*\\) FROM meal UNION ALL SELECT 'app_user', count\\(*\\) FROM app_user UNION ALL SELECT 'dispatch', count\\(*\\) FROM dispatch;\")",
+      "Bash(npm run *)",
+      "WebFetch(domain:docs.google.com)",
+      "Bash(node -e \"const d=require\\('./src/db/seed-data.json'\\); for\\(const k of Object.keys\\(d\\)\\){const v=d[k]; console.log\\(k.padEnd\\(32\\), Array.isArray\\(v\\)?v.length+' rows':typeof v\\)}\")",
+      "Bash(npx tsx *)",
+      "Bash(curl -s -o /dev/null -w \"login=%{http_code}\\\\n\" http://localhost:3000/login)",
+      "Bash(curl -s -o /dev/null -w \"root=%{http_code}\\\\n\" http://localhost:3000/)",
+      "PowerShell(Stop-Process *)",
+      "PowerShell(try { Stop-Process -Id 1304 -Force -ErrorAction Stop } catch {}; Start-Sleep -Milliseconds 800; \\(Get-NetTCPConnection -State Listen -LocalPort 3000,3001 -ErrorAction SilentlyContinue | Measure-Object\\).Count)",
+      "PowerShell(Get-NetTCPConnection *)",
+      "Bash(python -)",
+      "Bash(sed -n '/^export type StockRow/,/^};/p' src/lib/core.ts)",
+      "Bash(sed -n '/^export type ScorecardRow/,/^};/p' src/lib/core.ts)",
+      "PowerShell(Get-NetFirewallRule *)",
+      "Bash(PGPASSWORD=password \"/c/Program Files/PostgreSQL/18/bin/psql.exe\" -U postgres -h localhost -d ugabrush -c \"SELECT id, mode, label, token_hint, uses, created_at::timestamp\\(0\\), last_used_at::timestamp\\(0\\), expires_at::timestamp\\(0\\), revoked_at::timestamp\\(0\\) FROM share_link ORDER BY created_at DESC;\")",
+      "Bash(curl -s -o /dev/null -w \"LAN: %{http_code}\\\\n\" --max-time 8 http://192.168.100.143:3000/login)"
+    ]
+  }
+}

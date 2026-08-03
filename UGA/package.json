@@ -1,0 +1,50 @@
+{
+  "name": "ugabrush-manufacturing-system",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Ugabrush Manufacturing Inventory, WIP & Direct Labour System — web application",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "tsx scripts/push.ts",
+    "db:seed": "tsx scripts/seed.ts",
+    "db:reset": "tsx scripts/reset.ts",
+    "verify": "tsx scripts/verify-parity.ts",
+    "test:functional": "tsx scripts/functional.ts",
+    "test:smoke": "tsx scripts/smoke.ts",
+    "test": "npm run verify && npm run test:functional",
+    "setup": "npm run db:push && npm run db:seed"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "drizzle-orm": "^0.44.2",
+    "jose": "^6.0.11",
+    "next": "^15.3.4",
+    "pg": "^8.22.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^22.15.0",
+    "@types/pg": "^8.20.0",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "autoprefixer": "^10.4.21",
+    "drizzle-kit": "^0.31.1",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

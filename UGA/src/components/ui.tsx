@@ -44,7 +44,7 @@ export function Section({
   className?: string;
 }) {
   return (
-    <section className={clsx('mb-6', className)}>
+    <section className={clsx('mb-6 min-w-0', className)}>
       {(title || actions) && (
         <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
           <div>
@@ -70,7 +70,7 @@ export function Card({
   className?: string;
   pad?: boolean;
 }) {
-  return <div className={clsx('card', pad && 'card-pad', className)}>{children}</div>;
+  return <div className={clsx('card min-w-0', pad && 'card-pad', className)}>{children}</div>;
 }
 
 /* ------------------------------------------------------------------ stat --- */
@@ -292,7 +292,10 @@ export function StatusBadge({ status }: { status: string }) {
 /* ----------------------------------------------------------------- table --- */
 
 export function TableWrap({ children }: { children: ReactNode }) {
-  return <div className="table-wrap">{children}</div>;
+  // min-w-0 matters on the scroll container itself: without it, a grid or flex
+  // ancestor sizes this box to the table's full width, so overflow-x never
+  // triggers and the page grows instead of the table scrolling.
+  return <div className="table-wrap min-w-0">{children}</div>;
 }
 
 export function EmptyState({

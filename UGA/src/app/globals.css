@@ -137,8 +137,12 @@
 }
 
 @layer components {
+  /* min-w-0 on both of these because they are the things that end up as grid
+     and flex children. Without it such a child is sized to its content, so a
+     wide table stretches its column instead of scrolling inside .table-wrap,
+     and a card is pushed past the viewport edge. */
   .card {
-    @apply rounded-card bg-surface shadow-card;
+    @apply min-w-0 rounded-card bg-surface shadow-card;
   }
 
   .dark .card,
@@ -230,7 +234,7 @@
   }
 
   .table-wrap {
-    @apply overflow-x-auto rounded-card border border-line bg-surface shadow-card;
+    @apply min-w-0 overflow-x-auto rounded-card border border-line bg-surface shadow-card;
   }
 
   table.data {

@@ -4,6 +4,14 @@
 
 @layer base {
   :root {
+    /*
+     * Native UI that the page cannot style directly — the <select> popup on
+     * Android and iOS, date pickers, form control chrome — is painted by the
+     * OS. color-scheme is the only hook that tells it which palette to use, so
+     * it is what keeps those surfaces in step with the app theme.
+     */
+    color-scheme: light;
+
     --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
     /* #F3F2EC */
@@ -30,6 +38,8 @@
   }
 
   .dark {
+    color-scheme: dark;
+
     --bg: 12 16 22;
     --surface: 20 26 34;
     --raised: 27 34 44;
@@ -110,6 +120,20 @@
     outline: 2px solid rgb(var(--brand));
     outline-offset: 2px;
   }
+
+  /*
+   * Options in an open <select>. Desktop browsers and Android Chrome honour
+   * these; iOS Safari renders its own wheel picker and ignores them, which is
+   * why color-scheme above matters — that is the only lever on iOS.
+   */
+  option {
+    background-color: rgb(var(--surface));
+    color: rgb(var(--ink));
+  }
+
+  option:disabled {
+    color: rgb(var(--faint));
+  }
 }
 
 @layer components {
@@ -145,6 +169,26 @@
     @apply appearance-none bg-no-repeat pr-9;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
     background-position: right 0.65rem center;
+  }
+
+  /* The chevron is a baked-in data URI, so the dark variant is a second copy
+     with a lighter stroke rather than a currentColor swap. */
+  .dark .select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2398a5b6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  }
+
+  /*
+   * iOS Safari zooms the whole page when a focused control has a font smaller
+   * than 16px, and does not zoom back out — which is what makes everything
+   * look oversized after tapping a dropdown. Matching 16px on small screens
+   * suppresses the zoom entirely; text-sm still applies from sm up.
+   */
+  @media (max-width: 639px) {
+    .input,
+    .select,
+    .textarea {
+      font-size: 16px;
+    }
   }
 
   .btn {

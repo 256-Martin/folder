@@ -58,7 +58,7 @@ export function SharePanel({
       <form action={createAction} className="flex flex-wrap items-end gap-3">
         <label className="min-w-[9rem]">
           <span className="mb-1 block text-xs font-medium text-muted">Mode</span>
-          <select name="mode" className="input" defaultValue="VIEW">
+          <select name="mode" className="select" defaultValue="VIEW">
             <option value="VIEW">View only</option>
             <option value="TEAM">Normal (can record)</option>
           </select>

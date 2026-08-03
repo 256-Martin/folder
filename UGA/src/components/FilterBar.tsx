@@ -1,4 +1,5 @@
 import { Icon } from './icons';
+import { Select } from './Select';
 
 export type FilterField =
   | { type: 'search'; name: string; label: string; value?: string; placeholder?: string }
@@ -37,14 +38,13 @@ export function FilterBar({
             {f.label}
           </label>
           {f.type === 'select' ? (
-            <select id={`filter-${f.name}`} name={f.name} defaultValue={f.value ?? ''} className="select">
-              <option value="">{f.allLabel ?? 'All'}</option>
-              {f.options.map((o) => (
-                <option key={o.value} value={o.value}>
-                  {o.label}
-                </option>
-              ))}
-            </select>
+            <Select
+              id={`filter-${f.name}`}
+              name={f.name}
+              defaultValue={f.value ?? ''}
+              options={f.options}
+              placeholder={f.allLabel ?? 'All'}
+            />
           ) : (
             <input
               id={`filter-${f.name}`}

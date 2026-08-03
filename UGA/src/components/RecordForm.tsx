@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { useActionState, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { Icon } from './icons';
+import { Select } from './Select';
 
 export type Option = { value: string; label: string; group?: string };
 
@@ -132,31 +133,22 @@ function FieldControl({ field: f, error }: { field: FieldDef; error?: string }) 
       )}
 
       {f.type === 'select' ? (
-        <select
+        <Select
           id={f.name}
           name={f.name}
           required={f.required}
-          defaultValue={f.defaultValue ?? ''}
+          defaultValue={String(f.defaultValue ?? '')}
           disabled={f.readOnly}
-          className="select"
-        >
-          <option value="">Select…</option>
-          {grouped
-            ? grouped.map(([group, opts]) => (
-                <optgroup key={group} label={group}>
-                  {opts.map((o) => (
-                    <option key={o.value} value={o.value}>
-                      {o.label}
-                    </option>
-                  ))}
-                </optgroup>
-              ))
-            : f.options?.map((o) => (
-                <option key={o.value} value={o.value}>
-                  {o.label}
-                </option>
-              ))}
-        </select>
+          // Flattened from `grouped` so options stay ordered by group; Select
+          // draws a heading each time the group changes.
+          options={
+            grouped
+              ? grouped.flatMap(([group, opts]) =>
+                  opts.map((o) => ({ ...o, group: group || undefined })),
+                )
+              : (f.options ?? [])
+          }
+        />
       ) : f.type === 'textarea' ? (
         <textarea
           id={f.name}
@@ -238,7 +230,7 @@ export function InlineAction({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className={clsx('btn-sm', variant === 'danger' ? 'btn-danger' : 'btn-ghost')}
+        className={clsx('btn-sm', variant === 'danger' ? 'btn-danger-outline' : 'btn-ghost')}
       >
         {icon && <Icon name={icon} size={13} />}
         {label}

@@ -102,7 +102,14 @@ export function Stat({
   const body = (
     <>
       <div className="text-xs font-medium text-muted">{label}</div>
-      <div className={clsx('mt-1.5 text-2xl font-semibold tnum tracking-tight', TONE_TEXT[tone])}>
+      <div
+        className={clsx(
+          // break-words so an unusually long figure wraps inside its column
+          // rather than spilling over the neighbouring one.
+          'mt-1.5 break-words text-2xl font-semibold tnum tracking-tight',
+          TONE_TEXT[tone],
+        )}
+      >
         {value}
       </div>
       {hint && <div className="mt-1 text-xs text-faint">{hint}</div>}
@@ -154,7 +161,7 @@ export function StatPanel({ items, cols = 4 }: { items: StatItem[]; cols?: 2 | 3
     <div className="card overflow-hidden">
       <div
         className={clsx(
-          'grid grid-cols-1 sm:grid-cols-2',
+          'grid grid-cols-1 sm:grid-cols-2 [&>*]:min-w-0',
           cols === 2 && 'lg:grid-cols-2',
           cols === 3 && 'lg:grid-cols-3',
           cols === 4 && 'lg:grid-cols-4',
@@ -166,7 +173,7 @@ export function StatPanel({ items, cols = 4 }: { items: StatItem[]; cols?: 2 | 3
               <div className="text-xs font-medium text-muted">{item.label}</div>
               <div
                 className={clsx(
-                  'mt-1.5 text-2xl font-semibold tnum tracking-tight',
+                  'mt-1.5 break-words text-2xl font-semibold tnum tracking-tight',
                   TONE_TEXT[item.tone ?? 'neutral'],
                 )}
               >
@@ -209,7 +216,10 @@ export function StatGrid({ children, cols = 4 }: { children: ReactNode; cols?: 2
   return (
     <div
       className={clsx(
-        'grid gap-3',
+        // Grid items default to min-width:auto, so a long unbreakable figure
+        // widens its column and pushes the page sideways. min-w-0 lets the
+        // column shrink and the content truncate instead.
+        'grid gap-3 [&>*]:min-w-0',
         cols === 2 && 'grid-cols-1 sm:grid-cols-2',
         cols === 3 && 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         cols === 4 && 'grid-cols-2 lg:grid-cols-4',

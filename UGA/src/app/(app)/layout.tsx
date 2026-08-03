@@ -15,7 +15,13 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         userName={user.name}
         envLabel={process.env.NEXT_PUBLIC_ENV_LABEL}
       />
-      <main className="min-w-0 flex-1">
+      {/*
+        overflow-x-clip, not -hidden: clip does not create a scroll container,
+        so the sticky top bar and sticky table headers keep working, while
+        anything too wide is prevented from widening the viewport. Wide tables
+        stay reachable because .table-wrap scrolls inside itself.
+      */}
+      <main className="min-w-0 flex-1 overflow-x-clip">
         {user.share && <GuestBanner role={user.role} />}
         <div className="mx-auto max-w-[1600px] px-4 py-6 sm:px-6 lg:px-8">{children}</div>
       </main>

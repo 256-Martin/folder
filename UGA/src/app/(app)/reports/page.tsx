@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Icon } from '@/components/icons';
+import { Select } from '@/components/Select';
 import { Badge, Card, PageHeader, Section, Stat, StatGrid } from '@/components/ui';
 import { getSession } from '@/lib/auth';
 import { loadSnapshot } from '@/lib/core';
@@ -41,13 +42,7 @@ export default async function ReportsPage({
             <label className="label" htmlFor="month">
               Month
             </label>
-            <select id="month" name="month" defaultValue={month} className="select">
-              {months.map((m) => (
-                <option key={m.value} value={m.value}>
-                  {m.label}
-                </option>
-              ))}
-            </select>
+            <Select id="month" name="month" defaultValue={month} options={months} includeEmpty={false} />
           </div>
           <button type="submit" className="btn-secondary btn-sm">
             Apply period

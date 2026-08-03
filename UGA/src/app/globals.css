@@ -213,6 +213,13 @@
     @apply btn bg-danger text-white hover:opacity-90;
   }
 
+  /* Destructive but not the primary action on the row — carries the warning in
+     the border and label rather than a solid fill, so a table of them does not
+     read as a wall of red. */
+  .btn-danger-outline {
+    @apply btn border border-danger bg-surface text-danger hover:bg-danger/10 active:bg-danger/15;
+  }
+
   .btn-sm {
     @apply px-2.5 py-1.5 text-xs;
   }

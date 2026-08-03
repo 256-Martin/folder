@@ -3,6 +3,7 @@
 import { useActionState, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { Icon } from './icons';
+import { Select } from './Select';
 import { Badge, Card } from './ui';
 import type { ActionState } from './RecordForm';
 import type { ActiveShare } from '@/lib/sharing';
@@ -56,13 +57,21 @@ export function SharePanel({
       </p>
 
       <form action={createAction} className="flex flex-wrap items-end gap-3">
-        <label className="min-w-[9rem]">
-          <span className="mb-1 block text-xs font-medium text-muted">Mode</span>
-          <select name="mode" className="select" defaultValue="VIEW">
-            <option value="VIEW">View only</option>
-            <option value="TEAM">Normal (can record)</option>
-          </select>
-        </label>
+        <div className="min-w-[9rem]">
+          <label htmlFor="share-mode" className="mb-1 block text-xs font-medium text-muted">
+            Mode
+          </label>
+          <Select
+            id="share-mode"
+            name="mode"
+            defaultValue="VIEW"
+            placeholder="View only"
+            options={[
+              { value: 'VIEW', label: 'View only' },
+              { value: 'TEAM', label: 'Normal (can record)' },
+            ]}
+          />
+        </div>
         <label className="min-w-[12rem] flex-1">
           <span className="mb-1 block text-xs font-medium text-muted">Who is it for? (optional)</span>
           <input name="label" type="text" className="input" placeholder="e.g. Auditor" />
